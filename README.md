@@ -48,3 +48,40 @@ npm install mongodb
 npm run app.js
 ```
 
+## Add a Person Document  
+  
+```js
+const personDocument = {
+    name: { first: "Alan", last: "Turing" },
+    birth: new Date(1912, 5, 23), // May 23, 1912
+    death: new Date(1954, 5, 7), // May 7, 1954
+    contribs: [ "Turing machine", "Turing test", "Turingery" ],
+    views: 1250000
+}
+```
+
+```js
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Change the ping command to insertOne(personDocument)
+    const db = client.db('my-database');
+    const collection = db.collection('people');
+    const personDocument = {
+        name: { first: "Alan", last: "Turing" },
+        birth: new Date(1912, 5, 23), // May 23, 1912
+        death: new Date(1954, 5, 7), // May 7, 1954
+        contribs: [ "Turing machine", "Turing test", "Turingery" ],
+        views: 1250000
+    }
+    const p = await collection.insertOne(personDocument);
+    console.log(`successfully inserted ${p} into people collection.`);
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+```
+
+Note: We added `my-database` and `people` collections through the MongoDB Atlas UI.  
